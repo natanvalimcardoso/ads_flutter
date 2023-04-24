@@ -5,18 +5,18 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "admob_flutter",
+            "name": "flutter_admbob_ramon",
             "request": "launch",
             "type": "dart"
         },
         {
-            "name": "admob_flutter (profile mode)",
+            "name": "flutter_admbob_ramon (profile mode)",
             "request": "launch",
             "type": "dart",
             "flutterMode": "profile"
         },
         {
-            "name": "admob_flutter (release mode)",
+            "name": "flutter_admbob_ramon (release mode)",
             "request": "launch",
             "type": "dart",
             "flutterMode": "release"

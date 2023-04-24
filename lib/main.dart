@@ -1,12 +1,17 @@
-import 'package:admob_flutter/modules/home_page.dart';
 import 'package:flutter/material.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
+
+import 'admobo/home_page.dart';
 
 void main() {
-  runApp(const AppWidget());
+  WidgetsFlutterBinding.ensureInitialized();
+  MobileAds.instance.initialize();
+  
+  runApp(const MyApp());
 }
 
-class AppWidget extends StatelessWidget {
-  const AppWidget({super.key});
+class MyApp extends StatelessWidget {
+  const MyApp({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -15,7 +20,8 @@ class AppWidget extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: HomePage(),
+      home: const HomePage(),
     );
   }
 }
+
