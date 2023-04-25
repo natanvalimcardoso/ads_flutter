@@ -14,6 +14,7 @@ class _HomePageState extends State<HomePage> {
     super.initState();
     myBanner.load();
     loadAd();
+    loadRewardedAd();
   }
 
   //* BannerAd
@@ -45,6 +46,26 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
+  //* RewardedAd
+
+  RewardedAd? _rewardedAd;
+
+  void loadRewardedAd() {
+    RewardedAd.load(
+      adUnitId: 'ca-app-pub-3940256099942544/5224354917',
+      request: const AdRequest(),
+      rewardedAdLoadCallback: RewardedAdLoadCallback(
+        onAdLoaded: (ad) {
+          debugPrint('$ad loaded.');
+          _rewardedAd = ad;
+        },
+        onAdFailedToLoad: (LoadAdError error) {
+          debugPrint('RewardedAd failed to load: $error');
+        },
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -54,6 +75,8 @@ class _HomePageState extends State<HomePage> {
       body: Column(
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
+           const Spacer(flex: 2,),
+
           ElevatedButton(
             child: const Text('interstitial'),
             onPressed: () {
@@ -70,7 +93,34 @@ class _HomePageState extends State<HomePage> {
               _interstitialAd = null;
             },
           ),
+          
           const Spacer(),
+          ElevatedButton(
+            onPressed: () {
+              if (_rewardedAd == null) {
+                return;
+              }
+              _rewardedAd!.fullScreenContentCallback = FullScreenContentCallback(
+                onAdDismissedFullScreenContent: (ad) {
+                  ad.dispose();
+                  loadRewardedAd();
+                },
+                onAdFailedToShowFullScreenContent: (ad, error) {
+                  ad.dispose();
+                  loadRewardedAd();
+                },
+                onAdImpression: (ad) => debugPrint('\n\n\n\nO usuário clicou no anúncio.\n\n\n\n'),
+              );
+              _rewardedAd!.show(
+                onUserEarnedReward: (ad, reward) {
+                  debugPrint('Recompensa recebida: ${reward.amount}');
+                },
+              );
+              _rewardedAd = null;
+            },
+            child: const Text('rewarded'),
+          ),
+          const Spacer(flex: 2,),
           Center(
             child: SizedBox(
               width: myBanner.size.width.toDouble(),
