@@ -74,46 +74,45 @@ class _HomePageState extends State<HomePage> {
 
   void nativedAd() {
     nativeAd = NativeAd(
-        adUnitId: 'ca-app-pub-3940256099942544/2247696110',
-        listener: NativeAdListener(
-          onAdLoaded: (ad) {
-            debugPrint('$NativeAd loaded.');
-            setState(() {
-              _nativeAdIsLoaded = true;
-            });
-          },
-          onAdFailedToLoad: (ad, error) {
-            debugPrint('$NativeAd failed to load: $error');
-            ad.dispose();
-          },
-        ),
-        request: const AdRequest(),
-        // Styling
-        nativeTemplateStyle: NativeTemplateStyle(
-            templateType: TemplateType.medium,
-            mainBackgroundColor: Colors.red, // Background color
-            cornerRadius: 10.0,
-            callToActionTextStyle: NativeTemplateTextStyle(
-                textColor: Colors.cyan,
-                backgroundColor: Colors.red,
-                style: NativeTemplateFontStyle.monospace,
-                size: 16.0),
-            primaryTextStyle: NativeTemplateTextStyle(
-                textColor: Colors.red,
-                backgroundColor: Colors.cyan,
-                style: NativeTemplateFontStyle.italic,
-                size: 16.0),
-            secondaryTextStyle: NativeTemplateTextStyle(
-                textColor: Colors.green,
-                backgroundColor: Colors.black,
-                style: NativeTemplateFontStyle.bold,
-                size: 16.0),
-            tertiaryTextStyle: NativeTemplateTextStyle(
-                textColor: Colors.brown,
-                backgroundColor: Colors.amber,
-                style: NativeTemplateFontStyle.normal,
-                size: 16.0)))
-      ..load();
+      adUnitId: 'ca-app-pub-3940256099942544/2247696110',
+      listener: NativeAdListener(
+        onAdLoaded: (ad) {
+          setState(() {
+            _nativeAdIsLoaded = true;
+          });
+        },
+        onAdFailedToLoad: (ad, error) {
+          ad.dispose();
+        },
+      ),
+      request: const AdRequest(),
+      // Styling
+      nativeTemplateStyle: NativeTemplateStyle(
+        templateType: TemplateType.medium,
+        mainBackgroundColor: Colors.red, // Background color
+        cornerRadius: 10.0,
+        callToActionTextStyle: NativeTemplateTextStyle(
+            textColor: Colors.cyan,
+            backgroundColor: Colors.red,
+            style: NativeTemplateFontStyle.monospace,
+            size: 16.0),
+        primaryTextStyle: NativeTemplateTextStyle(
+            textColor: Colors.red,
+            backgroundColor: Colors.cyan,
+            style: NativeTemplateFontStyle.italic,
+            size: 16.0),
+        secondaryTextStyle: NativeTemplateTextStyle(
+            textColor: Colors.green,
+            backgroundColor: Colors.black,
+            style: NativeTemplateFontStyle.bold,
+            size: 16.0),
+        tertiaryTextStyle: NativeTemplateTextStyle(
+            textColor: Colors.brown,
+            backgroundColor: Colors.amber,
+            style: NativeTemplateFontStyle.normal,
+            size: 16.0),
+      ),
+    )..load();
   }
 
   @override
@@ -172,11 +171,10 @@ class _HomePageState extends State<HomePage> {
               _rewardedAd = null;
             },
             child: const Text('Rewarded'),
-            
           ),
           const Spacer(),
           ElevatedButton(
-            style:  ElevatedButton.styleFrom(
+            style: ElevatedButton.styleFrom(
               backgroundColor: Colors.red,
             ),
             child: const Text('Native Ad'),
