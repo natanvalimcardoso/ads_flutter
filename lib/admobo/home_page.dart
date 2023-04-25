@@ -9,13 +9,13 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-
   @override
   void initState() {
     super.initState();
     myBanner.load();
     loadAd();
     loadRewardedAd();
+    nativedAd();
   }
 
   //* BannerAd ---------------------------------------------- *//
@@ -67,6 +67,55 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
+  //* NativeAd ---------------------------------------------- *//
+
+  NativeAd? nativeAd;
+  bool _nativeAdIsLoaded = false;
+
+  void nativedAd() {
+    nativeAd = NativeAd(
+        adUnitId: 'ca-app-pub-3940256099942544/2247696110',
+        listener: NativeAdListener(
+          onAdLoaded: (ad) {
+            debugPrint('$NativeAd loaded.');
+            setState(() {
+              _nativeAdIsLoaded = true;
+            });
+          },
+          onAdFailedToLoad: (ad, error) {
+            debugPrint('$NativeAd failed to load: $error');
+            ad.dispose();
+          },
+        ),
+        request: const AdRequest(),
+        // Styling
+        nativeTemplateStyle: NativeTemplateStyle(
+            templateType: TemplateType.medium,
+            mainBackgroundColor: Colors.red, // Background color
+            cornerRadius: 10.0,
+            callToActionTextStyle: NativeTemplateTextStyle(
+                textColor: Colors.cyan,
+                backgroundColor: Colors.red,
+                style: NativeTemplateFontStyle.monospace,
+                size: 16.0),
+            primaryTextStyle: NativeTemplateTextStyle(
+                textColor: Colors.red,
+                backgroundColor: Colors.cyan,
+                style: NativeTemplateFontStyle.italic,
+                size: 16.0),
+            secondaryTextStyle: NativeTemplateTextStyle(
+                textColor: Colors.green,
+                backgroundColor: Colors.black,
+                style: NativeTemplateFontStyle.bold,
+                size: 16.0),
+            tertiaryTextStyle: NativeTemplateTextStyle(
+                textColor: Colors.brown,
+                backgroundColor: Colors.amber,
+                style: NativeTemplateFontStyle.normal,
+                size: 16.0)))
+      ..load();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -76,8 +125,9 @@ class _HomePageState extends State<HomePage> {
       body: Column(
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
-           const Spacer(flex: 2,),
-
+          const Spacer(
+            flex: 2,
+          ),
           ElevatedButton(
             child: const Text('interstitial'),
             onPressed: () {
@@ -94,10 +144,9 @@ class _HomePageState extends State<HomePage> {
               _interstitialAd = null;
             },
           ),
-
           const Spacer(),
           ElevatedButton(
-            style:  ElevatedButton.styleFrom(
+            style: ElevatedButton.styleFrom(
               backgroundColor: Colors.orangeAccent,
             ),
             onPressed: () {
@@ -123,8 +172,37 @@ class _HomePageState extends State<HomePage> {
               _rewardedAd = null;
             },
             child: const Text('Rewarded'),
+            
           ),
-          const Spacer(flex: 2,),
+          const Spacer(),
+          ElevatedButton(
+            style:  ElevatedButton.styleFrom(
+              backgroundColor: Colors.red,
+            ),
+            child: const Text('Native Ad'),
+            onPressed: () {
+              if (_nativeAdIsLoaded) {
+                showDialog(
+                  context: context,
+                  builder: (BuildContext context) {
+                    return AlertDialog(
+                      content: SizedBox(
+                        width: MediaQuery.of(context).size.width * 0.8,
+                        height: MediaQuery.of(context).size.height * 0.4,
+                        child: AdWidget(
+                          ad: nativeAd!,
+                          key: UniqueKey(),
+                        ),
+                      ),
+                    );
+                  },
+                );
+              }
+            },
+          ),
+          const Spacer(
+            flex: 2,
+          ),
           Center(
             child: SizedBox(
               width: myBanner.size.width.toDouble(),
