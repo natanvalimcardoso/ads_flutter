@@ -9,6 +9,7 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+
   @override
   void initState() {
     super.initState();
@@ -17,7 +18,7 @@ class _HomePageState extends State<HomePage> {
     loadRewardedAd();
   }
 
-  //* BannerAd
+  //* BannerAd ---------------------------------------------- *//
 
   final BannerAd myBanner = BannerAd(
     adUnitId: 'ca-app-pub-3940256099942544/6300978111',
@@ -26,7 +27,7 @@ class _HomePageState extends State<HomePage> {
     listener: const BannerAdListener(),
   );
 
-  //* InterstitialAd
+  //* InterstitialAd ---------------------------------------------- *//
 
   InterstitialAd? _interstitialAd;
 
@@ -46,7 +47,7 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  //* RewardedAd
+  //* RewardedAd ---------------------------------------------- *//
 
   RewardedAd? _rewardedAd;
 
@@ -93,9 +94,12 @@ class _HomePageState extends State<HomePage> {
               _interstitialAd = null;
             },
           ),
-          
+
           const Spacer(),
           ElevatedButton(
+            style:  ElevatedButton.styleFrom(
+              backgroundColor: Colors.orangeAccent,
+            ),
             onPressed: () {
               if (_rewardedAd == null) {
                 return;
@@ -113,12 +117,12 @@ class _HomePageState extends State<HomePage> {
               );
               _rewardedAd!.show(
                 onUserEarnedReward: (ad, reward) {
-                  debugPrint('Recompensa recebida: ${reward.amount}');
+                  debugPrint('\n\n\n\nRecompensa recebida: ${reward.amount}\n\n\n\n');
                 },
               );
               _rewardedAd = null;
             },
-            child: const Text('rewarded'),
+            child: const Text('Rewarded'),
           ),
           const Spacer(flex: 2,),
           Center(
